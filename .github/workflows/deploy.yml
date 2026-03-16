@@ -20,18 +20,17 @@ jobs:
           npm install
           npm run build
 
-      # NEW STEP: This will list all files in the action log so we can prove they are there
-      - name: Debug - Verify Files Exist
-        run: ls -la
-
       - name: Deploy Theme to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
-          # Double-check this is the EXACT environment name you are looking at!
-          DEV_ENV: 'adytoninvesdev' 
+          # We are back to WPE_ENV. Put your EXACT environment name here!
+          WPE_ENV: 'adytoninvesdev' 
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
           
-          # FIXED: Added the slash to the source path
+          # We are uploading the entire current directory
           SRC_PATH: './' 
+          
+          # Delivering straight to the new theme folder
           REMOTE_PATH: 'wp-content/themes/adyton-resources/' 
-          FLAGS: '--exclude=node_modules/ --exclude=src/ --exclude=.github/ --exclude=.git/'
+          
+          # I have completely removed the FLAGS line to ensure nothing gets blocked!
