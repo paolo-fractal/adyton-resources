@@ -10,13 +10,23 @@ const __dirname = path.dirname(__filename);
 const sourceDir = path.join(__dirname, 'src', 'assets');
 const destDir = path.join(__dirname, 'public', 'assets');
 
-// Ensure the destination public/assets folder exists
-if (!fs.existsSync(destDir)) {
-    fs.mkdirSync(destDir, { recursive: true });
-}
-
-// Function to duplicate images
 function duplicateImages() {
+    console.log('Starting asset duplication...');
+
+    // 1. Check if the source folder actually exists first
+    if (!fs.existsSync(sourceDir)) {
+        console.error(`❌ Error: Source folder not found at ${sourceDir}`);
+        return;
+    }
+
+    // 2. CREATE THE DESTINATION FOLDER (if it doesn't exist)
+    if (!fs.existsSync(destDir)) {
+        console.log(`📁 Creating new folder at: ${destDir}`);
+        fs.mkdirSync(destDir, { recursive: true });
+    } else {
+        console.log(`✅ Folder already exists at: ${destDir}`);
+    }
+
     // Read all files in the source directory
     const files = fs.readdirSync(sourceDir);
 
@@ -34,12 +44,11 @@ function duplicateImages() {
             const destPath = path.join(destDir, file);
 
             fs.copyFileSync(sourcePath, destPath);
-            console.log(`Copied: ${file}`);
             copyCount++;
         }
     });
 
-    console.log(`\nSuccess! Duplicated ${copyCount} images to the public/assets folder.`);
+    console.log(`🎉 Success! Duplicated ${copyCount} images to the public/assets folder.`);
 }
 
 // Run the function
