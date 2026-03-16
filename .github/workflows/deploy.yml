@@ -21,17 +21,16 @@ jobs:
           npm run build
 
       - name: Deploy Theme to WP Engine
-        uses: wpengine/github-action-wpengine@v1
+        uses: wpengine/github-action-wpe-site-deploy@v3
         with:
           # CHANGE THIS to your actual WP Engine environment name
           WPE_ENV: 'adytoninvesdev' 
-          WPE_SSH_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
+          
+          # Note: The action expects this specific 'SSHG' variable name
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
+          
           SRC_PATH: '.' 
-          # This tells WP Engine to treat your code as a theme
           REMOTE_PATH: 'wp-content/themes/adyton-resources/' 
+          
           # Exclude heavy source files to keep your server lean
-          EXCLUDE: |
-            node_modules/
-            src/
-            .github/
-            .git/
+          FLAGS: '--exclude=node_modules/ --exclude=src/ --exclude=.github/ --exclude=.git/'
