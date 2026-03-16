@@ -28,7 +28,7 @@ jobs:
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
           # Double-check this is the EXACT environment name you are looking at!
-          WPE_ENV: 'adytoninvesdev' 
+          DEV_ENV: 'adytoninvesdev' 
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
           
           # FIXED: Added the slash to the source path
