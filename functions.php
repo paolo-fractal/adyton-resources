@@ -1,4 +1,7 @@
 <?php
+/* ==========================================================================
+   INITIALIZE THEME ASSETS
+   ========================================================================== */
 function adyton_enqueue_lovable_assets() {
     $theme_dir = get_template_directory();
     $theme_uri = get_template_directory_uri();
@@ -18,3 +21,50 @@ function adyton_enqueue_lovable_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'adyton_enqueue_lovable_assets');
+
+/* ==========================================================================
+   AUTO-CREATE WORDPRESS PAGES FOR REACT ROUTER
+   ========================================================================== */
+function adyton_auto_create_react_pages() {
+    // We set an option in the database so this only runs once and doesn't slow down your site
+    if (get_option('adyton_react_pages_created')) {
+        return;
+    }
+
+    // A list of all your React pages from src/pages
+    // 'slug' => 'Page Title'
+    $react_pages = array(
+        'about'             => 'About',
+        'contact'           => 'Contact',
+        'feni-island'       => 'Feni Island',
+        'fergusson-island'  => 'Fergusson Island',
+        'investors'         => 'Investors',
+        'news'              => 'News',
+        'projects'          => 'Projects',
+        'why-adyton'        => 'Why Adyton',
+        'why-png'           => 'Why PNG'
+    );
+
+    foreach ($react_pages as $slug => $title) {
+        // Check if the page already exists in WordPress
+        $page_check = get_page_by_path($slug);
+        
+        if (!isset($page_check->ID)) {
+            // If it doesn't exist, create it programmatically
+            $new_page = array(
+                'post_type'    => 'page',
+                'post_title'   => $title,
+                'post_name'    => $slug,
+                'post_status'  => 'publish',
+                'post_author'  => 1, // Assigns the page to the default admin user
+            );
+            wp_insert_post($new_page);
+        }
+    }
+
+    // Flag that the script has run successfully so it doesn't run again
+    update_option('adyton_react_pages_created', true);
+}
+
+// Hook this to run when you load the WordPress admin dashboard
+add_action('admin_init', 'adyton_auto_create_react_pages');
