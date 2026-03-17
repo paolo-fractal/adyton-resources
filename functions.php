@@ -68,3 +68,24 @@ function adyton_auto_create_react_pages() {
 
 // Hook this to run when you load the WordPress admin dashboard
 add_action('admin_init', 'adyton_auto_create_react_pages');
+
+/* ==========================================================================
+   REACT COMPONENT SHORTCODE BRIDGE
+   ========================================================================== */
+function adyton_react_shortcode($atts) {
+    // Extract the component name from the shortcode
+    $attributes = shortcode_atts(array(
+        'name' => '',
+    ), $atts);
+    
+    // If no component name is provided, output nothing
+    if (empty($attributes['name'])) {
+        return '';
+    }
+    
+    // Output the empty mounting div for React to find later
+    return '<div class="adyton-react-mount" data-component="' . esc_attr($attributes['name']) . '"></div>';
+}
+
+// Register the shortcode [react_component]
+add_shortcode('react_component', 'adyton_react_shortcode');
