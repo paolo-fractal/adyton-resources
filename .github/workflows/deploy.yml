@@ -1,36 +1,20 @@
-name: Build and Deploy Theme to WP Engine
+name: Deploy PHP Theme to WP Engine
 on:
   push:
     branches:
       - main
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies and Build
-        run: |
-          npm install
-          npm run build
-
       - name: Deploy Theme to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
-          # We are back to WPE_ENV. Put your EXACT environment name here!
-          WPE_ENV: 'adytoninvesdev' 
+          # IMPORTANT: Make sure this matches your actual WP Engine environment name
+          WPE_ENV: 'your_wp_engine_environment_name' 
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
-          
-          # We are uploading the entire current directory
           SRC_PATH: './' 
-          
-          # Delivering straight to the new theme folder
-          REMOTE_PATH: 'wp-content/themes/adyton-resources/' 
-          
-          # I have completely removed the FLAGS line to ensure nothing gets blocked!
+          REMOTE_PATH: 'wp-content/themes/adyton-resources/'
