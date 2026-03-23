@@ -13,3 +13,15 @@ function adyton_enqueue_scripts() {
     wp_enqueue_style('adyton-style', get_stylesheet_uri());
 }
 add_action('wp_enqueue_scripts', 'adyton_enqueue_scripts');
+
+/* ==========================================================================
+   REGISTER ACF BLOCKS
+   ========================================================================== */
+add_action('init', 'adyton_register_acf_blocks');
+function adyton_register_acf_blocks() {
+    // Only run if ACF is installed and active
+    if (function_exists('register_block_type')) {
+        register_block_type(__DIR__ . '/blocks/hero');
+        // We will add more blocks here later! (e.g., register_block_type(__DIR__ . '/blocks/metrics');)
+    }
+}
