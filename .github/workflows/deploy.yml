@@ -13,8 +13,9 @@ jobs:
       - name: Deploy Theme to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
-          # IMPORTANT: Make sure this matches your actual WP Engine environment name
           WPE_ENV: 'adytoninvesdev' 
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
           SRC_PATH: './' 
-          REMOTE_PATH: 'wp-content/themes/adyton-resources/'
+          REMOTE_PATH: 'wp-content/themes/adyton-resources/' 
+          # ADD THIS LINE: It forces the server to delete orphaned files
+          FLAGS: -azvr --inplace --delete --exclude=.*
