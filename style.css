@@ -7,4 +7,27 @@ Version: 1.0.0
 Text Domain: adyton-resources
 */
 
-/* Custom CSS goes here. Tailwind will handle most of the styling via the CDN! */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+/* Fix basic body styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0F172A; /* Fallback navy */
+    color: #FFFFFF;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Recreate the Hero Background Drift Animation */
+@keyframes hero-drift {
+    0% { background-position: center 40%; }
+    50% { background-position: center 60%; }
+    100% { background-position: center 40%; }
+}
+
+.animate-hero-drift {
+    animation: hero-drift 30s ease-in-out infinite;
+}
